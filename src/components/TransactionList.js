@@ -8,7 +8,7 @@ export const TransactionList = () => {
   return (
     <>
       <h3>History</h3>
-      {transactions?.length == 0 && (
+      {transactions?.length === 0 && (
         <p className="not-found">No transactions found</p>
       )}
       <ul className="list">
