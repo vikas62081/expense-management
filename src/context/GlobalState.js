@@ -1,0 +1,49 @@
+import React, { createContext, useReducer } from "react";
+import AppReducer, { getLocal } from "./AppReducer";
+
+// Initial state
+const initialState = {
+  transactions: getLocal(),
+  showModal: false,
+};
+
+// Create context
+export const GlobalContext = createContext(initialState);
+
+// Provider component
+export const GlobalProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(AppReducer, initialState);
+
+  // Actions
+  function deleteTransaction(id) {
+    dispatch({
+      type: "DELETE_TRANSACTION",
+      payload: id,
+    });
+  }
+
+  function addTransaction(transaction) {
+    dispatch({
+      type: "ADD_TRANSACTION",
+      payload: transaction,
+    });
+  }
+  function toggleModal() {
+    dispatch({
+      type: "TOGGLE_MODAL",
+    });
+  }
+  return (
+    <GlobalContext.Provider
+      value={{
+        transactions: state.transactions,
+        deleteTransaction,
+        addTransaction,
+        toggleModal,
+        showModal: state.showModal,
+      }}
+    >
+      {children}
+    </GlobalContext.Provider>
+  );
+};
